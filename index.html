@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Apply stored theme before paint to avoid flash of wrong theme -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('megatool-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Free Online Tools for Developers, Creators & Businesses | Shiva Saini</title>
+  <meta name="description" content="20+ free client-side tools: WebP Converter, Invoice Generator, API Tester, Tax Calculator, ATS Checker. No login, 100% private.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Free Online Tools for Developers, Creators & Businesses">
+  <meta property="og:description" content="20+ free client-side tools: WebP Converter, Invoice Generator, API Tester, Tax Calculator, ATS Checker. No login, 100% private.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> megatool</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="#dev">Dev &amp; AI</a>
+        <a href="#social">Social</a>
+        <a href="#business">Business</a>
+        <a href="#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section style="padding: var(--space-6) 0 var(--space-5);">
+      <p class="mono" style="color: var(--accent-bright); font-size: 0.9rem; margin-bottom: var(--space-2);">// no signup · no upload · runs in your browser</p>
+      <h1>20+ free tools that never leave your browser.</h1>
+      <p style="max-width: 620px; margin-top: var(--space-3); font-size: 1.05rem;">
+        Built for developers, freelancers, and creators who just want to get something done —
+        JSON formatting, invoices, tax slabs, image conversion, and more. Everything runs
+        client-side: your files and data never touch a server.
+      </p>
+    </section>
+
+    <section id="dev" class="category">
+      <p class="category-label">💻 Developer &amp; AI Tools</p>
+      <div class="card-grid">
+
+        <a href="tools/dev/webhook-formatter.html" class="tool-card">
+          <span class="tag">json --format</span>
+          <h3>Webhook / API Payload Formatter &amp; Mock Tester</h3>
+          <p>Test, beautify, and validate API JSON responses. Also mock payloads for webhook debugging.</p>
+        </a>
+
+        <a href="tools/dev/prompt-optimizer.html" class="tool-card">
+          <span class="tag">prompt --optimize</span>
+          <h3>System Prompts Optimizer</h3>
+          <p>Convert simple user text into advanced, structured prompts for ChatGPT, Claude, and Gemini.</p>
+        </a>
+
+        <a href="tools/dev/env-to-json.html" class="tool-card">
+          <span class="tag">.env --convert</span>
+          <h3>Env File to JSON / YAML Converter</h3>
+          <p>Convert .env configuration files to JSON or YAML format. 100% client-side and secure.</p>
+        </a>
+
+        <a href="tools/dev/regex-visualizer.html" class="tool-card">
+          <span class="tag">regex --visualize</span>
+          <h3>RegEx Visualizer &amp; Generator</h3>
+          <p>Generate and visualize Regular Expressions. Includes ready-made patterns for PAN, GSTIN, and Aadhaar.</p>
+        </a>
+
+      </div>
+    </section>
+
+    <section id="social" class="category">
+      <p class="category-label">📱 Social Media &amp; Creator Tools</p>
+      <div class="card-grid">
+
+        <a href="tools/social/bio-link-generator.html" class="tool-card">
+          <span class="tag">biolink --create</span>
+          <h3>Social Media Bio-Link Generator</h3>
+          <p>Create a super-fast, lightweight, Linktree-style single-page bio link for Instagram, YouTube, and more.</p>
+        </a>
+
+        <a href="tools/social/youtube-thumbnail-extractor.html" class="tool-card">
+          <span class="tag">yt --thumbnail</span>
+          <h3>YouTube Thumbnail Extractor</h3>
+          <p>Paste a YouTube video URL and download the Full HD 1080p thumbnail instantly.</p>
+        </a>
+
+        <a href="tools/social/thread-splitter.html" class="tool-card">
+          <span class="tag">text --split</span>
+          <h3>Tweet / Threads Character Splitter</h3>
+          <p>Automatically split long text into Twitter/X threads and Threads posts within character limits.</p>
+        </a>
+
+        <a href="tools/social/instagram-caption-spacer.html" class="tool-card">
+          <span class="tag">caption --space</span>
+          <h3>Instagram Caption Spacer</h3>
+          <p>Add clean line breaks and organize hashtags for better-looking Instagram captions.</p>
+        </a>
+
+      </div>
+    </section>
+
+    <section id="business" class="category">
+      <p class="category-label">💼 Business &amp; Finance Tools (India Specific)</p>
+      <div class="card-grid">
+
+        <a href="tools/business/invoice-generator.html" class="tool-card">
+          <span class="tag">invoice --pdf</span>
+          <h3>Freelance Invoice PDF Generator</h3>
+          <p>Generate and download professional GST / Non-GST invoices instantly. No login required.</p>
+        </a>
+
+        <a href="tools/business/tax-slab-calculator.html" class="tool-card">
+          <span class="tag">tax --fy2026</span>
+          <h3>Indian Tax Slab Live Calculator</h3>
+          <p>Compare New vs Old Tax Regime for the current financial year and calculate tax instantly.</p>
+        </a>
+
+        <a href="tools/business/price-estimator.html" class="tool-card">
+          <span class="tag">quote --estimate</span>
+          <h3>Project Scope / Price Estimator</h3>
+          <p>Hourly rate calculator for freelancers to create accurate project quotes and proposals for clients.</p>
+        </a>
+
+        <a href="tools/business/ecommerce-margin-calculator.html" class="tool-card">
+          <span class="tag">margin --rto</span>
+          <h3>E-commerce Profit &amp; RTO Margin Calculator</h3>
+          <p>For Amazon/Shopify sellers. Calculate net profit after deducting RTO, shipping, and platform fees.</p>
+        </a>
+
+      </div>
+    </section>
+
+    <section id="productivity" class="category">
+      <p class="category-label">⚡ Productivity &amp; Student Tools</p>
+      <div class="card-grid">
+
+        <a href="tools/productivity/image-converter.html" class="tool-card">
+          <span class="tag">img --webp</span>
+          <h3>Bulk Image to WebP/AVIF Converter</h3>
+          <p>Compress and convert images to WebP or AVIF directly in your browser. No upload to server.</p>
+        </a>
+
+        <a href="tools/productivity/resume-ats-checker.html" class="tool-card">
+          <span class="tag">resume --scan</span>
+          <h3>Resume/CV ATS Score Checker</h3>
+          <p>Scan your resume text and check if it will pass Applicant Tracking System filters.</p>
+        </a>
+
+        <a href="tools/productivity/markdown-to-pdf.html" class="tool-card">
+          <span class="tag">md --export</span>
+          <h3>Markdown to Beautiful PDF/HTML Converter</h3>
+          <p>Convert markdown notes and documentation into clean, styled PDF or HTML files instantly.</p>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Built by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/core/nav.js"></script>
+  <script src="js/core/theme.js"></script>
+</body>
+</html>
