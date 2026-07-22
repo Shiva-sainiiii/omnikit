@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>System Prompt Optimizer for ChatGPT, Claude & Gemini | OmniKit</title>
+  <meta name="description" content="Turn a simple instruction into a structured, high-quality system prompt for ChatGPT, Claude, or Gemini. Free, no login, runs entirely in your browser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+
+  <style>
+    .tool-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+    }
+
+    @media (max-width: 800px) {
+      .tool-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-header h2 {
+      font-size: 1rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .panel textarea {
+      min-height: 140px;
+    }
+
+    #promptOutput {
+      min-height: 380px;
+      font-size: 0.85rem;
+    }
+
+    .option-row {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .option-group {
+      flex: 1;
+      min-width: 160px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .option-group label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-top: var(--space-2);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">prompt --optimize --target=llm</p>
+    <h1>System Prompts Optimizer</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      Describe what you want an AI to do in plain language. This tool restructures it into
+      a clear, well-organized system prompt — with role, task, constraints, and output
+      format sections — that works better across ChatGPT, Claude, and Gemini.
+    </p>
+
+    <div class="panel" style="margin-top: var(--space-4);">
+      <div class="option-row">
+        <div class="option-group">
+          <label for="targetModel">Target model</label>
+          <select id="targetModel">
+            <option value="general">General / any model</option>
+            <option value="chatgpt">ChatGPT</option>
+            <option value="claude">Claude</option>
+            <option value="gemini">Gemini</option>
+          </select>
+        </div>
+        <div class="option-group">
+          <label for="tone">Tone</label>
+          <select id="tone">
+            <option value="neutral">Neutral / professional</option>
+            <option value="friendly">Friendly &amp; conversational</option>
+            <option value="strict">Strict &amp; precise</option>
+          </select>
+        </div>
+        <div class="option-group">
+          <label for="outputFormat">Preferred output format</label>
+          <select id="outputFormat">
+            <option value="unspecified">Let the model decide</option>
+            <option value="markdown">Markdown</option>
+            <option value="json">JSON</option>
+            <option value="bullets">Bullet points</option>
+            <option value="plain">Plain text</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Your instruction</h2>
+        </div>
+        <textarea id="simpleInput" placeholder="e.g. Write product descriptions for my Shopify store that sound persuasive but not salesy"></textarea>
+        <div class="action-bar">
+          <button class="btn" id="optimizeBtn">Optimize Prompt</button>
+          <button class="btn btn-ghost" id="clearBtn">Clear</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Optimized system prompt</h2>
+          <button class="btn btn-ghost" id="copyBtn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Copy</button>
+        </div>
+        <textarea id="promptOutput" readonly placeholder="Your structured prompt will appear here"></textarea>
+      </div>
+    </div>
+
+    <section class="info-section">
+      <h2>Why structure matters when writing prompts</h2>
+      <p>
+        A one-line instruction like "write me a blog post" leaves too much to
+        interpretation — tone, length, structure, and audience are all left for the model
+        to guess. A structured system prompt separates these concerns into clear sections:
+        who the model should act as, exactly what task it's performing, what constraints
+        apply, and what format the output should take. This reduces ambiguity and produces
+        noticeably more consistent results across different runs.
+      </p>
+      <p>
+        Different model families also respond somewhat differently to formatting cues —
+        Claude tends to follow explicit XML-style tags well, while ChatGPT and Gemini often
+        do well with clearly labeled Markdown sections. This tool adjusts the structure
+        based on your target model, so the same underlying idea is phrased in a way that
+        plays to each model's strengths.
+      </p>
+
+      <div class="faq-item">
+        <h3>Does this tool call an AI model to generate the prompt?</h3>
+        <p>No. The restructuring is done with local template logic in your browser — no API calls, no data sent anywhere.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I use the same optimized prompt across different AI tools?</h3>
+        <p>Yes, though selecting a specific target model will tailor the formatting slightly for best results with that model.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/prompt-optimizer.js"></script>
+</body>
+</html>
