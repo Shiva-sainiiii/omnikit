@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>YouTube Thumbnail Downloader — Full HD 1080p | OmniKit</title>
+  <meta name="description" content="Paste a YouTube video URL and download its Full HD 1080p thumbnail instantly. Free, no login, works entirely in your browser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+
+  <style>
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      margin-top: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .url-row {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .url-row input {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .status-msg {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius);
+      display: none;
+    }
+
+    .status-msg.show {
+      display: block;
+    }
+
+    .status-msg.success {
+      background: rgba(124, 152, 133, 0.12);
+      color: var(--accent-bright);
+      border: 1px solid rgba(124, 152, 133, 0.3);
+    }
+
+    .status-msg.error {
+      background: rgba(196, 117, 107, 0.12);
+      color: var(--danger);
+      border: 1px solid rgba(196, 117, 107, 0.3);
+    }
+
+    .thumb-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-3);
+      margin-top: var(--space-2);
+    }
+
+    .thumb-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .thumb-card img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #000;
+      display: block;
+    }
+
+    .thumb-card-footer {
+      padding: var(--space-2) var(--space-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+    }
+
+    .thumb-card-footer span {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .thumb-card-footer a {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    #thumbGrid {
+      display: none;
+    }
+
+    #thumbGrid.show {
+      display: grid;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">yt --thumbnail --hd</p>
+    <h1>YouTube Thumbnail Extractor</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      Paste any YouTube video URL to instantly preview and download its thumbnail in
+      multiple resolutions, including Full HD 1080p (when available).
+    </p>
+
+    <div class="panel">
+      <div class="url-row">
+        <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+        <button class="btn" id="fetchBtn">Get Thumbnails</button>
+      </div>
+      <div class="status-msg" id="statusMsg"></div>
+
+      <div class="thumb-grid" id="thumbGrid"><!-- thumbnail cards injected by JS --></div>
+    </div>
+
+    <section class="info-section">
+      <h2>Why download YouTube thumbnails directly?</h2>
+      <p>
+        Every YouTube video automatically generates a set of thumbnail images at different
+        resolutions, hosted directly on YouTube's own image servers. Creators often need
+        quick access to these — for making a reaction thumbnail, building a video roundup
+        graphic, or referencing a competitor's thumbnail style for design research. Instead
+        of taking a screenshot (which loses quality and often includes the play button
+        overlay), this tool links straight to the original hosted image.
+      </p>
+      <p>
+        YouTube serves several thumbnail sizes for every video — from a small 120px
+        preview up to the 1280×720 "maxresdefault" version — but not every video has the
+        higher resolutions available, since it depends on the original upload quality and
+        how the creator set their thumbnail. This tool shows every available size so you
+        can pick the highest quality one that actually exists for that video.
+      </p>
+
+      <div class="faq-item">
+        <h3>Why is the HD thumbnail missing for some videos?</h3>
+        <p>The 1280×720 "maxresdefault" thumbnail isn't generated for every video — mainly older uploads or videos under a certain resolution. In that case, use the next best size shown (like standard or high quality).</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is this tool downloading anything from YouTube's private servers?</h3>
+        <p>No — it only links to YouTube's publicly accessible thumbnail image URLs, which are the same images visible in search results and video previews.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/youtube-thumbnail.js"></script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Instagram Caption Line Break & Hashtag Spacer | OmniKit</title>
+  <meta name="description" content="Add clean line breaks to Instagram captions and organize hashtags with invisible spacer lines. Free, no login, works entirely in your browser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+
+  <style>
+    .tool-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+    }
+
+    @media (max-width: 800px) {
+      .tool-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-header h2 {
+      font-size: 1rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .panel textarea {
+      min-height: 200px;
+    }
+
+    #hashtagsInput {
+      min-height: 100px;
+    }
+
+    #captionOutput {
+      min-height: 340px;
+      font-size: 0.88rem;
+    }
+
+    .option-row {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .option-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      min-width: 160px;
+    }
+
+    .option-group label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .action-bar {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      margin-top: var(--space-2);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">caption --space --hashtags</p>
+    <h1>Instagram Caption Spacer</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      Instagram collapses regular line breaks, which is why captions often look like one
+      giant paragraph. This tool inserts invisible spacer characters so your line breaks
+      actually show up, and organizes your hashtags into a clean separated block.
+    </p>
+
+    <div class="panel" style="margin-top: var(--space-4);">
+      <div class="option-row">
+        <div class="option-group">
+          <label for="spacerStyle">Spacer style</label>
+          <select id="spacerStyle">
+            <option value="dot">Dot separator (·)</option>
+            <option value="blank">Blank invisible lines</option>
+            <option value="dashes">Dashed line</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Caption text</h2>
+        </div>
+        <textarea id="captionInput" placeholder="Write your caption here.&#10;&#10;Each new paragraph will get a proper line break in the output.">Sunset chasing again 🌅
+
+Some days you just need to stop and watch the sky do its thing.</textarea>
+
+        <div class="panel-header" style="margin-top: var(--space-2);">
+          <h2>Hashtags (optional)</h2>
+        </div>
+        <textarea id="hashtagsInput" placeholder="#sunset #photography #goldenhour #naturelovers">#sunset #photography #goldenhour #naturelovers #skyporn</textarea>
+
+        <div class="action-bar">
+          <button class="btn" id="generateBtn">Generate Spaced Caption</button>
+          <button class="btn btn-ghost" id="clearBtn">Clear</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Output</h2>
+          <button class="btn btn-ghost" id="copyBtn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Copy</button>
+        </div>
+        <textarea id="captionOutput" readonly placeholder="Your spaced caption will appear here"></textarea>
+      </div>
+    </div>
+
+    <section class="info-section">
+      <h2>Why does Instagram collapse line breaks in captions?</h2>
+      <p>
+        Instagram's caption renderer strips consecutive blank lines down to a single line
+        break, which is why a caption that looked well-spaced while you were typing it
+        often turns into a dense wall of text once posted. The common workaround creators
+        use is inserting an invisible character — like a Braille blank symbol or a dot —
+        on otherwise empty lines, which tricks Instagram into preserving the spacing
+        because the line technically isn't empty.
+      </p>
+      <p>
+        Separating hashtags from the main caption body serves a similar visual purpose:
+        putting hashtags in their own clearly separated block, rather than buried mid
+        sentence, keeps the caption itself readable while still getting the discovery
+        benefit hashtags provide. Many creators place hashtags several lines below the
+        caption using this same spacer trick, so they're present but visually
+        de-emphasized.
+      </p>
+
+      <div class="faq-item">
+        <h3>Will the spacer characters be visible to readers?</h3>
+        <p>The dot and dash options are visible but subtle. If you want completely invisible spacing, choose the "blank invisible lines" option, which uses a character that renders as empty space.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does this work for Instagram Reels captions too?</h3>
+        <p>Yes — the same line-break behavior applies to Reels, feed posts, and carousel captions.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/caption-spacer.js"></script>
+</body>
+</html>

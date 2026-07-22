@@ -1,1 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Free Bio-Link Page Generator (Linktree Alternative) | OmniKit</title>
+  <meta name="description" content="Create a fast, lightweight, Linktree-style bio-link page for Instagram, YouTube, or TikTok. Download a single HTML file — no signup, no monthly fee.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/tools/bio-link-generator.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">biolink --create --download</p>
+    <h1>Social Media Bio-Link Generator</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      Build a fast, lightweight bio-link page — like Linktree, but free and yours forever.
+      Fill in your details, preview it live, then download a single HTML file you can host
+      anywhere (Vercel, Netlify, GitHub Pages) in under a minute.
+    </p>
+
+    <div class="bio-layout">
+
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Your details</h2>
+        </div>
+
+        <div class="field-group">
+          <label for="profileName">Display name</label>
+          <input type="text" id="profileName" placeholder="Jane Doe" value="Jane Doe">
+        </div>
+
+        <div class="field-group">
+          <label for="profileBio">Short bio</label>
+          <input type="text" id="profileBio" placeholder="Content creator · Photographer" value="Content creator · Photographer">
+        </div>
+
+        <div class="field-group">
+          <label for="profileImg">Profile image URL (optional)</label>
+          <input type="url" id="profileImg" placeholder="https://example.com/photo.jpg">
+        </div>
+
+        <div class="field-group">
+          <label for="accentColor">Accent color</label>
+          <input type="color" id="accentColor" value="#7C9885" style="height: 42px; padding: 4px; cursor: pointer;">
+        </div>
+
+        <div class="panel-header" style="margin-top: var(--space-3);">
+          <h2>Links</h2>
+          <button class="btn btn-ghost" id="addLinkBtn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">+ Add Link</button>
+        </div>
+        <div id="linksContainer"><!-- link rows injected by JS --></div>
+
+        <div class="action-bar">
+          <button class="btn" id="downloadBtn">Download HTML</button>
+        </div>
+      </div>
+
+      <div class="panel preview-panel">
+        <div class="panel-header">
+          <h2>Live preview</h2>
+        </div>
+        <div class="preview-frame-wrap">
+          <iframe id="previewFrame" title="Bio link preview"></iframe>
+        </div>
+      </div>
+
+    </div>
+
+    <section class="info-section">
+      <h2>Why use a self-hosted bio-link page instead of Linktree?</h2>
+      <p>
+        Bio-link tools like Linktree are convenient, but they come with tradeoffs: your
+        page loads through their servers with tracking scripts and ads baked in on free
+        tiers, the URL is on their domain instead of yours, and premium customization sits
+        behind a paywall. A self-hosted page — a single lightweight HTML file — loads
+        instantly, has no third-party tracking, and can be placed on your own custom
+        domain or subdomain for free using services like Vercel or GitHub Pages.
+      </p>
+      <p>
+        Since the generated page is plain HTML and CSS with no framework overhead, it also
+        loads dramatically faster than script-heavy alternatives — which matters because a
+        slow bio-link page is often the first thing a new follower sees from your
+        Instagram or YouTube profile, and page speed directly affects whether they stick
+        around to click through.
+      </p>
+
+      <div class="faq-item">
+        <h3>Do I need to know how to code to use the downloaded file?</h3>
+        <p>No. Once downloaded, you can upload the HTML file directly to a free static host like Vercel, Netlify, or GitHub Pages — no coding required to get it live.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does this store my links or profile data anywhere?</h3>
+        <p>No — everything is generated locally in your browser and only exists in the file you download.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/bio-link-generator.js"></script>
+</body>
+</html>
