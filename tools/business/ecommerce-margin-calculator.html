@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>E-commerce Profit & RTO Margin Calculator (Amazon/Shopify) | OmniKit</title>
+  <meta name="description" content="Calculate true net profit after RTO, shipping, and platform fees for Amazon and Shopify sellers. Free, no login, runs entirely in your browser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+
+  <style>
+    .tool-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+      align-items: start;
+    }
+
+    @media (max-width: 800px) {
+      .tool-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .panel-header h2 {
+      font-size: 1rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .field-group label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .field-row {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .field-row .field-group {
+      flex: 1;
+    }
+
+    .field-hint {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .result-summary {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .result-row.negative span:last-child {
+      color: var(--danger);
+    }
+
+    .result-row.total {
+      font-weight: 700;
+      font-size: 1.15rem;
+      padding-top: var(--space-2);
+      border-top: 2px solid var(--border);
+      margin-top: var(--space-1);
+    }
+
+    .result-row.total span {
+      color: var(--text);
+    }
+
+    .result-row.total.profit-positive span:last-child {
+      color: var(--accent-bright);
+    }
+
+    .result-row.total.profit-negative span:last-child {
+      color: var(--danger);
+    }
+
+    .margin-badge {
+      display: inline-block;
+      margin-top: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      background: rgba(124, 152, 133, 0.12);
+      color: var(--accent-bright);
+      border: 1px solid rgba(124, 152, 133, 0.3);
+    }
+
+    .margin-badge.low {
+      background: rgba(212, 165, 116, 0.12);
+      color: var(--warn);
+      border-color: rgba(212, 165, 116, 0.3);
+    }
+
+    .margin-badge.negative {
+      background: rgba(196, 117, 107, 0.12);
+      color: var(--danger);
+      border-color: rgba(196, 117, 107, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">margin --rto --net-profit</p>
+    <h1>E-commerce Profit &amp; RTO Margin Calculator</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      For Amazon and Shopify sellers. See your real per-unit profit after accounting for
+      RTO (Return to Origin) losses, shipping costs both ways, and platform commission —
+      not just the surface-level margin most sellers calculate.
+    </p>
+
+    <div class="tool-layout">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Product &amp; pricing</h2>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="sellingPrice">Selling price (₹)</label>
+            <input type="number" id="sellingPrice" value="999" min="0" step="10">
+          </div>
+          <div class="field-group">
+            <label for="costPrice">Cost price / COGS (₹)</label>
+            <input type="number" id="costPrice" value="350" min="0" step="10">
+          </div>
+        </div>
+
+        <div class="panel-header" style="margin-top: var(--space-2);">
+          <h2>Shipping</h2>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label for="forwardShipping">Forward shipping (₹)</label>
+            <input type="number" id="forwardShipping" value="60" min="0" step="5">
+          </div>
+          <div class="field-group">
+            <label for="reverseShipping">Reverse/RTO shipping (₹)</label>
+            <input type="number" id="reverseShipping" value="80" min="0" step="5">
+          </div>
+        </div>
+
+        <div class="panel-header" style="margin-top: var(--space-2);">
+          <h2>Platform &amp; RTO</h2>
+        </div>
+        <div class="field-group">
+          <label for="platformFeePercent">Platform commission (%)</label>
+          <input type="number" id="platformFeePercent" value="15" min="0" max="50" step="0.5">
+          <p class="field-hint">Amazon referral fees typically range 5-20% depending on category.</p>
+        </div>
+        <div class="field-group">
+          <label for="paymentGatewayPercent">Payment gateway fee (%)</label>
+          <input type="number" id="paymentGatewayPercent" value="2" min="0" max="10" step="0.1">
+        </div>
+        <div class="field-group">
+          <label for="rtoRate">RTO rate (%)</label>
+          <input type="number" id="rtoRate" value="12" min="0" max="100" step="1">
+          <p class="field-hint">Percentage of orders that get returned to origin (undelivered/refused). COD categories often see 15-30%.</p>
+        </div>
+        <div class="field-group">
+          <label for="ordersPerMonth">Orders per month (optional)</label>
+          <input type="number" id="ordersPerMonth" value="500" min="0" step="10">
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Net profit breakdown</h2>
+        </div>
+        <div class="result-summary" id="resultSummary"><!-- rendered by JS --></div>
+      </div>
+    </div>
+
+    <section class="info-section">
+      <h2>Why RTO destroys e-commerce margins more than sellers expect</h2>
+      <p>
+        A product that sells for ₹999 with a cost of ₹350 looks like it has a healthy
+        margin — until RTO enters the picture. When an order is returned to origin, the
+        seller typically eats both the forward shipping cost (to send it out) and the
+        reverse shipping cost (to bring it back), while earning zero revenue from that
+        order. If your RTO rate is 15%, that means roughly one in seven orders is a pure
+        loss, and this loss has to be absorbed by the profit from your successfully
+        delivered orders — which quietly shrinks your real margin far more than most
+        sellers realize when they're only looking at price minus cost.
+      </p>
+      <p>
+        This is especially significant for cash-on-delivery (COD) heavy categories in
+        India, where RTO rates are often much higher than prepaid orders, since customers
+        can refuse delivery without any financial commitment upfront. Calculating true net
+        profit — factoring in platform commission, payment gateway fees, and RTO losses
+        averaged across your order volume — gives a far more accurate picture than the
+        naive "selling price minus cost price" math most new sellers start with.
+      </p>
+
+      <div class="faq-item">
+        <h3>How can I reduce my RTO rate?</h3>
+        <p>Common approaches include offering prepaid discounts to shift customers away from COD, adding order confirmation calls or SMS verification, and improving product page accuracy to reduce refusals from mismatched expectations. Results vary by category and audience.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does this include GST or income tax on my profit?</h3>
+        <p>No — this calculates operational net profit before tax. Use the Tax Slab Calculator separately to estimate income tax on your business earnings.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/margin-calculator.js"></script>
+</body>
+</html>

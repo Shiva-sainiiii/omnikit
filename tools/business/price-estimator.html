@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Freelance Project Price Estimator & Quote Calculator | OmniKit</title>
+  <meta name="description" content="Calculate accurate freelance project quotes from your hourly rate, estimated hours, and buffer. Generate a client-ready proposal summary. Free, no login.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+
+  <style>
+    .tool-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+      align-items: start;
+    }
+
+    @media (max-width: 800px) {
+      .tool-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel-header h2 {
+      font-size: 1rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .field-group label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .field-hint {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .task-row {
+      display: grid;
+      grid-template-columns: 2fr 0.8fr auto;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+      align-items: center;
+    }
+
+    .task-row .remove-task {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--danger);
+      border-radius: var(--radius);
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .task-row .remove-task:hover {
+      background: rgba(196, 117, 107, 0.1);
+      border-color: var(--danger);
+    }
+
+    .action-bar {
+      display: flex;
+      gap: var(--space-2);
+      margin-top: var(--space-2);
+    }
+
+    .quote-summary {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+    }
+
+    .quote-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .quote-row:last-child {
+      border-bottom: none;
+    }
+
+    .quote-row.total {
+      color: var(--text);
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding-top: var(--space-2);
+      border-top: 2px solid var(--border);
+      margin-top: var(--space-1);
+    }
+
+    .quote-total-amount {
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">quote --estimate --buffer</p>
+    <h1>Project Scope / Price Estimator</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      Break your project into tasks, estimate hours for each, and get an accurate quote —
+      complete with a buffer for scope creep and revisions. Built for freelancers who are
+      tired of underquoting.
+    </p>
+
+    <div class="tool-layout">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Your rate</h2>
+        </div>
+        <div class="field-group">
+          <label for="hourlyRate">Hourly rate (₹)</label>
+          <input type="number" id="hourlyRate" value="1500" min="0" step="50">
+        </div>
+
+        <div class="panel-header" style="margin-top: var(--space-2);">
+          <h2>Tasks</h2>
+          <button class="btn btn-ghost" id="addTaskBtn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">+ Add Task</button>
+        </div>
+        <div id="tasksContainer"></div>
+
+        <div class="field-group" style="margin-top: var(--space-2);">
+          <label for="bufferPercent">Buffer / contingency (%)</label>
+          <input type="number" id="bufferPercent" value="15" min="0" max="100">
+          <p class="field-hint">Covers revisions, scope creep, and unexpected back-and-forth. 10-20% is typical.</p>
+        </div>
+
+        <div class="field-group">
+          <label for="urgencyMultiplier">Rush / urgency multiplier</label>
+          <select id="urgencyMultiplier">
+            <option value="1">Standard timeline</option>
+            <option value="1.15">Slightly tight (+15%)</option>
+            <option value="1.3">Rush job (+30%)</option>
+            <option value="1.5">Very urgent (+50%)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Quote summary</h2>
+        </div>
+        <div class="quote-summary" id="quoteSummary"><!-- rendered by JS --></div>
+      </div>
+    </div>
+
+    <section class="info-section">
+      <h2>Why freelancers should always quote with a buffer</h2>
+      <p>
+        Most freelance projects run over their initial time estimate — not because of poor
+        planning, but because client feedback rounds, scope clarifications, and "just one
+        small change" requests are the norm rather than the exception. Quoting your exact
+        estimated hours with no buffer means every one of these normal occurrences eats
+        directly into your profit margin, effectively lowering your real hourly rate below
+        what you intended to charge.
+      </p>
+      <p>
+        A contingency buffer of 10-20% built into the quote upfront protects against this
+        without needing to renegotiate mid-project, which clients tend to find frustrating.
+        Similarly, factoring in a rush multiplier when a client needs faster turnaround
+        compensates you fairly for the reduced flexibility and potential after-hours work
+        that tight deadlines usually require.
+      </p>
+
+      <div class="faq-item">
+        <h3>How much buffer should I add for a new client I haven't worked with before?</h3>
+        <p>Consider leaning toward the higher end (15-20%) for new clients, since you don't yet have a feel for their revision patterns or communication style — both of which affect how much extra time a project actually takes.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Should I show the buffer as a separate line item to the client?</h3>
+        <p>This is a business decision, not a technical one — some freelancers fold it into the total quietly, others list it as "contingency" or "revisions allowance" for transparency. Either approach is common in practice.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/price-estimator.js"></script>
+</body>
+</html>
