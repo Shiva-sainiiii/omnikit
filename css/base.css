@@ -32,18 +32,29 @@
   --max-width: 1200px;
 }
 
-/* Light theme — applied when <html data-theme="light"> */
+/* Light theme — applied when <html data-theme="light">
+   Warm parchment background instead of flat white, deeper forest-green
+   accent for contrast, and a soft warm-gray border so cards read as
+   distinct surfaces rather than blending into the page. */
 :root[data-theme="light"] {
-  --bg: #F7F8F6;
+  --bg: #F3EFE6;
   --surface: #FFFFFF;
-  --surface-hover: #EFF1EE;
-  --border: #DDE1DA;
-  --text: #1A1D1B;
-  --text-dim: #5A6058;
-  --accent: #5F7A67;
-  --accent-bright: #4A6353;
-  --warn: #B5793F;
-  --danger: #A8493F;
+  --surface-hover: #FAF6EC;
+  --border: #E0D8C3;
+  --text: #22261F;
+  --text-dim: #6B6A5E;
+  --accent: #3F6B4F;
+  --accent-bright: #2E5039;
+  --warn: #A8642B;
+  --danger: #B0432F;
+}
+
+:root[data-theme="light"] .tool-card {
+  box-shadow: 0 1px 3px rgba(34, 38, 31, 0.06);
+}
+
+:root[data-theme="light"] .site-header {
+  background: rgba(243, 239, 230, 0.88);
 }
 
 * {
