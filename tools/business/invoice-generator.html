@@ -1,1 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Free Invoice Generator — GST & Non-GST PDF | OmniKit</title>
+  <meta name="description" content="Generate and download professional GST or Non-GST freelance invoices as PDF instantly. No login required, runs entirely in your browser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/tools/invoice-generator.css">
+
+  <!-- jsPDF for client-side PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">invoice --pdf --gst</p>
+    <h1>Freelance Invoice PDF Generator</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      Fill in your details and line items to generate a clean, professional invoice.
+      Supports GST and Non-GST formats. Download as PDF instantly — no login, no data
+      stored anywhere.
+    </p>
+
+    <div class="invoice-layout">
+
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Invoice details</h2>
+        </div>
+
+        <div class="field-row">
+          <div class="field-group">
+            <label for="invoiceNumber">Invoice #</label>
+            <input type="text" id="invoiceNumber" value="INV-001">
+          </div>
+          <div class="field-group">
+            <label for="invoiceDate">Date</label>
+            <input type="text" id="invoiceDate" placeholder="22 Jul 2026">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="gstToggle">Invoice type</label>
+          <select id="gstToggle">
+            <option value="non-gst">Non-GST Invoice</option>
+            <option value="gst">GST Invoice</option>
+          </select>
+        </div>
+
+        <div class="field-group" id="gstinField" style="display: none;">
+          <label for="gstin">Your GSTIN</label>
+          <input type="text" id="gstin" placeholder="22AAAAA0000A1Z5">
+        </div>
+
+        <div class="panel-header" style="margin-top: var(--space-2);">
+          <h2>From (you)</h2>
+        </div>
+        <div class="field-group">
+          <label for="fromName">Name / Business</label>
+          <input type="text" id="fromName" placeholder="Jane Doe Design" value="Jane Doe Design">
+        </div>
+        <div class="field-group">
+          <label for="fromDetails">Address / Email / Phone</label>
+          <textarea id="fromDetails" placeholder="123 Main St, Mumbai&#10;jane@example.com&#10;+91 98765 43210">jane@example.com
++91 98765 43210</textarea>
+        </div>
+
+        <div class="panel-header" style="margin-top: var(--space-2);">
+          <h2>Bill to</h2>
+        </div>
+        <div class="field-group">
+          <label for="toName">Client name</label>
+          <input type="text" id="toName" placeholder="Acme Corp" value="Acme Corp">
+        </div>
+        <div class="field-group">
+          <label for="toDetails">Client address / email</label>
+          <textarea id="toDetails" placeholder="456 Client Ave&#10;billing@acme.com">billing@acme.com</textarea>
+        </div>
+
+        <div class="panel-header" style="margin-top: var(--space-2);">
+          <h2>Line items</h2>
+          <button class="btn btn-ghost" id="addItemBtn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">+ Add Item</button>
+        </div>
+        <div id="itemsContainer"></div>
+
+        <div class="field-group" id="gstRateField" style="display: none;">
+          <label for="gstRate">GST rate (%)</label>
+          <input type="number" id="gstRate" value="18" min="0" max="28">
+        </div>
+
+        <div class="field-group">
+          <label for="notes">Notes / payment terms</label>
+          <textarea id="notes" placeholder="Payment due within 15 days. Thank you for your business!">Payment due within 15 days.</textarea>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn" id="downloadPdfBtn">Download PDF</button>
+        </div>
+      </div>
+
+      <div class="panel preview-panel">
+        <div class="panel-header">
+          <h2>Preview</h2>
+        </div>
+        <div class="invoice-preview" id="invoicePreview">
+          <!-- rendered by JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <section class="info-section">
+      <h2>Do freelancers in India need a GST invoice?</h2>
+      <p>
+        Whether you need to charge GST depends on your annual turnover and business
+        structure. Freelancers with turnover below the GST registration threshold
+        (currently ₹20 lakh for services in most states, ₹10 lakh in special category
+        states) generally aren't required to register for GST or charge it, and can issue
+        a simple Non-GST invoice instead. Once you cross the threshold or voluntarily
+        register, you're required to charge GST and include your GSTIN on every invoice.
+      </p>
+      <p>
+        A proper invoice — whether GST or Non-GST — should include a unique invoice
+        number, the date, both parties' details, a clear breakdown of services rendered,
+        and the total amount due. This isn't just good practice for getting paid on time;
+        it's also the record you'll need for tax filing and, if a client disputes payment,
+        proof of the work agreement.
+      </p>
+
+      <div class="faq-item">
+        <h3>What GST rate should I use for freelance/consulting services?</h3>
+        <p>Most professional and consulting services fall under 18% GST, but rates can vary by service category. Confirm the applicable rate for your specific service with a tax professional or the GST portal.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is this invoice legally valid for tax filing?</h3>
+        <p>This tool generates a properly formatted invoice document, but Claude — and this tool — can't confirm tax or legal compliance for your specific situation. Consult a chartered accountant for GST registration and filing requirements.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/invoice-generator.js"></script>
+</body>
+</html>

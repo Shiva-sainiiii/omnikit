@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Income Tax Calculator FY 2026-27 — New vs Old Regime | OmniKit</title>
+  <meta name="description" content="Compare New vs Old Tax Regime for FY 2026-27 (AY 2027-28) and calculate your income tax instantly. Free, no login, runs entirely in your browser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+
+  <style>
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+    }
+
+    .panel-header h2 {
+      font-size: 1rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .option-row {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .option-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .option-group label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+    }
+
+    @media (max-width: 700px) {
+      .compare-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .regime-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+    }
+
+    .regime-card.winner {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+
+    .regime-card h3 {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .winner-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      background: rgba(124, 152, 133, 0.15);
+      color: var(--accent-bright);
+      border: 1px solid rgba(124, 152, 133, 0.3);
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .regime-card .tax-amount {
+      font-family: var(--font-mono);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: var(--space-2) 0;
+    }
+
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      padding: 0.3rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .breakdown-row:last-child {
+      border-bottom: none;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .savings-note {
+      margin-top: var(--space-3);
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--accent-bright);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">tax --fy2026-27 --compare</p>
+    <h1>Indian Tax Slab Live Calculator</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      Compare New vs Old Tax Regime for FY 2026-27 (AY 2027-28) and see your tax liability
+      calculated instantly as you type.
+    </p>
+
+    <div class="panel">
+      <div class="option-row">
+        <div class="option-group">
+          <label for="income">Annual income (₹)</label>
+          <input type="number" id="income" value="1200000" min="0" step="10000">
+        </div>
+        <div class="option-group">
+          <label for="isSalaried">Employment type</label>
+          <select id="isSalaried">
+            <option value="salaried">Salaried (standard deduction applies)</option>
+            <option value="other">Business / Freelance / Other</option>
+          </select>
+        </div>
+        <div class="option-group">
+          <label for="ageGroup">Age group</label>
+          <select id="ageGroup">
+            <option value="below60">Below 60</option>
+            <option value="senior">Senior citizen (60-80)</option>
+            <option value="supersenior">Super senior (80+)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="option-group" id="deductionsField">
+        <label for="deductions">Old regime deductions (80C, 80D, HRA, etc.) (₹)</label>
+        <input type="number" id="deductions" value="150000" min="0" step="10000">
+      </div>
+    </div>
+
+    <div class="compare-grid" id="compareGrid"><!-- rendered by JS --></div>
+    <p class="savings-note" id="savingsNote"></p>
+
+    <section class="info-section">
+      <h2>New vs Old Tax Regime — which should you choose?</h2>
+      <p>
+        The new tax regime offers lower slab rates and a higher rebate threshold — income
+        up to ₹12 lakh is effectively tax-free after the Section 87A rebate — but it
+        removes most deductions like 80C investments, HRA, and home loan interest. The old
+        regime keeps higher slab rates but lets you reduce your taxable income
+        significantly if you have substantial deductions to claim, such as ELSS
+        investments, life insurance premiums, or rent paid.
+      </p>
+      <p>
+        As a rough rule of thumb, if your eligible deductions under the old regime add up
+        to more than roughly ₹4-5 lakh (varies by income level), the old regime often comes
+        out ahead. Below that, the new regime's lower rates and higher rebate usually win.
+        Since the actual break-even point shifts depending on your income level, running
+        both calculations side by side — like this tool does — is the most reliable way to
+        decide rather than relying on a fixed rule.
+      </p>
+
+      <div class="faq-item">
+        <h3>Can I switch between regimes every year?</h3>
+        <p>Salaried individuals can choose either regime each financial year when filing returns. Those with business income have more restrictions on switching back and forth — confirm your specific situation with a tax professional.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is this calculation accurate enough to file my taxes?</h3>
+        <p>This tool estimates tax liability based on standard slabs and rebates for FY 2026-27, but doesn't account for every possible deduction, surcharge edge case, or marginal relief scenario. Use it for planning, and confirm final figures with a tax professional or the official income tax portal before filing.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/tax-calculator.js"></script>
+</body>
+</html>
