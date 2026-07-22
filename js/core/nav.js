@@ -38,8 +38,54 @@
     });
   }
 
+  function setupDrawers() {
+    var overlay = document.getElementById('drawerOverlay');
+    var toolsDrawer = document.getElementById('toolsDrawer');
+    var siteDrawer = document.getElementById('siteDrawer');
+    var toolsDrawerBtn = document.getElementById('toolsDrawerBtn');
+    var siteDrawerBtn = document.getElementById('siteDrawerBtn');
+    var closeToolsDrawer = document.getElementById('closeToolsDrawer');
+    var closeSiteDrawer = document.getElementById('closeSiteDrawer');
+
+    if (!overlay) return; // drawers not present on this page
+
+    function openDrawer(drawer) {
+      drawer.classList.add('is-open');
+      overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAllDrawers() {
+      if (toolsDrawer) toolsDrawer.classList.remove('is-open');
+      if (siteDrawer) siteDrawer.classList.remove('is-open');
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    if (toolsDrawerBtn && toolsDrawer) {
+      toolsDrawerBtn.addEventListener('click', function () {
+        openDrawer(toolsDrawer);
+      });
+    }
+
+    if (siteDrawerBtn && siteDrawer) {
+      siteDrawerBtn.addEventListener('click', function () {
+        openDrawer(siteDrawer);
+      });
+    }
+
+    if (closeToolsDrawer) closeToolsDrawer.addEventListener('click', closeAllDrawers);
+    if (closeSiteDrawer) closeSiteDrawer.addEventListener('click', closeAllDrawers);
+    overlay.addEventListener('click', closeAllDrawers);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAllDrawers();
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     highlightActiveLink();
     setupMobileToggle();
+    setupDrawers();
   });
 })();
