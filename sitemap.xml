@@ -8,92 +8,93 @@
   </url>
 
   <url>
-    <loc>https://omnikit-hub.vercel.app/about.html</loc>
+    <loc>https://omnikit-hub.vercel.app/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <!-- Developer & AI Tools -->
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/dev/webhook-formatter.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/dev/webhook-formatter</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/dev/prompt-optimizer.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/dev/prompt-optimizer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/dev/env-to-json.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/dev/env-to-json</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/dev/regex-visualizer.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/dev/regex-visualizer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Social Media & Creator Tools -->
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/social/bio-link-generator.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/social/bio-link-generator</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/social/youtube-thumbnail-extractor.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/social/youtube-thumbnail-extractor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/social/thread-splitter.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/social/thread-splitter</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/social/instagram-caption-spacer.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/social/instagram-caption-spacer</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Business & Finance Tools -->
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/business/invoice-generator.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/business/invoice-generator</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/business/tax-slab-calculator.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/business/tax-slab-calculator</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/business/price-estimator.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/business/price-estimator</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/business/ecommerce-margin-calculator.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/business/ecommerce-margin-calculator</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Productivity & Student Tools -->
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/productivity/image-converter.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/productivity/image-converter</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/productivity/resume-ats-checker.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/productivity/resume-ats-checker</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://omnikit-hub.vercel.app/tools/productivity/markdown-to-pdf.html</loc>
+    <loc>https://omnikit-hub.vercel.app/tools/productivity/markdown-to-pdf</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
 </urlset>
+      
