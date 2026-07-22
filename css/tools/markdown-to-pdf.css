@@ -1,0 +1,171 @@
+/* ==========================================================================
+   markdown-to-pdf.css
+   Tool-specific styles for the Markdown to PDF/HTML Converter page.
+   ========================================================================== */
+
+.tool-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .tool-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.panel-header h2 {
+  font-size: 1rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.option-row {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.option-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 200px;
+}
+
+.option-group label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+#markdownInput {
+  min-height: 380px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.action-bar {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.preview-wrap {
+  background: #ffffff;
+  border: 1px solid #d8dad6;
+  border-radius: 6px;
+  overflow-y: auto;
+  max-height: 500px;
+  padding: 2rem;
+}
+
+/* Base markdown rendering — shared across themes.
+   This preview always represents a printed page (PDF/HTML export target),
+   so its colors are intentionally fixed and do NOT follow the site's
+   light/dark theme toggle. Selectors are qualified under .preview-wrap
+   with higher specificity than base.css's bare h1/h2/h3/p rules to
+   prevent the site theme from bleeding through. */
+.preview-wrap .markdown-preview,
+.preview-wrap .markdown-preview p {
+  color: #1a1a1a !important;
+}
+
+.preview-wrap .markdown-preview h1,
+.preview-wrap .markdown-preview h2,
+.preview-wrap .markdown-preview h3 {
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  color: #111111 !important;
+}
+
+.preview-wrap .markdown-preview h1:first-child,
+.preview-wrap .markdown-preview h2:first-child {
+  margin-top: 0;
+}
+
+.preview-wrap .markdown-preview ul,
+.preview-wrap .markdown-preview ol {
+  margin-bottom: 1em;
+  padding-left: 1.4em;
+  color: #2a2a2a;
+}
+
+.preview-wrap .markdown-preview li {
+  margin-bottom: 0.3em;
+}
+
+.preview-wrap .markdown-preview blockquote {
+  border-left: 3px solid #ccc;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #555555 !important;
+  font-style: italic;
+}
+
+.preview-wrap .markdown-preview code {
+  background: #f2f2f2;
+  color: #1a1a1a !important;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.preview-wrap .markdown-preview pre {
+  background: #f2f2f2;
+  padding: 1em;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+
+.preview-wrap .markdown-preview pre code {
+  background: none;
+  padding: 0;
+}
+
+.preview-wrap .markdown-preview a {
+  color: #3a6b4f !important;
+}
+
+/* Theme: Clean (sans-serif) — default */
+.theme-clean {
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* Theme: Editorial (serif) */
+.theme-editorial {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.theme-editorial h1,
+.theme-editorial h2,
+.theme-editorial h3 {
+  font-family: Georgia, serif;
+  font-weight: 700;
+}
+
+/* Theme: Technical (mono headings) */
+.theme-technical {
+  font-family: 'Inter', sans-serif;
+}
+
+.theme-technical h1,
+.theme-technical h2,
+.theme-technical h3 {
+  font-family: 'JetBrains Mono', monospace;
+}
