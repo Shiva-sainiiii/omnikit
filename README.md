@@ -1,4 +1,4 @@
-# megatool
+# Omnikit
 
 20+ free, client-side tools for developers, creators, and businesses — no login, no server uploads, no tracking. Built with vanilla HTML, CSS, and JS.
 
@@ -16,20 +16,64 @@ Every tool here runs entirely in your browser. Nothing you type or upload — JS
 ## Project structure
 
 ```
-mega-tool/
-├── index.html              # homepage
-├── tools/                  # one HTML file per tool, grouped by category
-│   ├── dev/
-│   ├── social/
-│   ├── business/
-│   └── productivity/
-├── css/
-│   └── base.css            # shared design tokens + layout
-├── js/
-│   ├── core/                # nav.js, theme.js — shared across all pages
-│   └── tools/                # one JS file per tool
-├── lib/                     # third-party libraries (jsPDF, marked.js)
-└── assets/
+Omnikit/
+├── index.html                      # homepage — grid of all tools
+├── /tools/
+│   ├── /dev/
+│   │   ├── webhook-formatter.html
+│   │   ├── prompt-optimizer.html
+│   │   ├── env-to-json.html
+│   │   └── regex-visualizer.html
+│   ├── /social/
+│   │   ├── bio-link-generator.html
+│   │   ├── youtube-thumbnail-extractor.html
+│   │   ├── thread-splitter.html
+│   │   └── instagram-caption-spacer.html
+│   ├── /business/
+│   │   ├── invoice-generator.html
+│   │   ├── tax-slab-calculator.html
+│   │   ├── price-estimator.html
+│   │   └── ecommerce-margin-calculator.html
+│   └── /productivity/
+│       ├── image-converter.html
+│       ├── resume-ats-checker.html
+│       └── markdown-to-pdf.html
+│
+├── /css/
+│   ├── base.css                    # shared: reset, typography, colors
+│   └── /tools/                     # tool-specific overrides (only if needed)
+│
+├── /js/
+│   ├── /core/
+│   │   ├── nav.js                  # shared header/footer logic
+│   │   └── theme.js                # dark mode toggle etc (if any)
+│   └── /tools/
+│       ├── webhook-formatter.js
+│       ├── prompt-optimizer.js
+│       ├── env-to-json.js
+│       ├── regex-visualizer.js
+│       ├── bio-link-generator.js
+│       ├── youtube-thumbnail.js
+│       ├── thread-splitter.js
+│       ├── caption-spacer.js
+│       ├── invoice-generator.js
+│       ├── tax-calculator.js
+│       ├── price-estimator.js
+│       ├── margin-calculator.js
+│       ├── image-converter.js
+│       ├── ats-checker.js
+│       └── markdown-to-pdf.js
+│
+├── /lib/                           # third-party libs (jspdf, marked.js, etc)
+│   ├── jspdf.min.js
+│   └── marked.min.js
+│
+├── /assets/
+│   ├── icons/                      # ek icon per tool for homepage cards
+│   └── og-images/                  # social share preview images
+│
+├── README.md
+└── .gitignore
 ```
 
 ## Local development
