@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Free Resume ATS Score Checker | OmniKit</title>
+  <meta name="description" content="Scan your resume text against a job description to check ATS (Applicant Tracking System) compatibility and keyword match. Free, no login, runs in your browser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+
+  <style>
+    .tool-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+      align-items: start;
+    }
+
+    @media (max-width: 800px) {
+      .tool-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .panel-header h2 {
+      font-size: 1rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .panel textarea {
+      min-height: 260px;
+      font-size: 0.85rem;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: var(--space-2);
+      margin-top: var(--space-2);
+    }
+
+    .score-panel {
+      position: sticky;
+      top: 80px;
+    }
+
+    .score-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border: 6px solid var(--border);
+    }
+
+    .score-circle.good { border-color: var(--accent); }
+    .score-circle.medium { border-color: var(--warn); }
+    .score-circle.low { border-color: var(--danger); }
+
+    .score-circle .score-num {
+      font-family: var(--font-mono);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .score-circle .score-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+      font-size: 0.88rem;
+      padding: var(--space-2);
+      border-radius: var(--radius);
+      background: var(--bg);
+    }
+
+    .check-item .icon {
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+    }
+
+    .check-item.pass .icon { color: var(--accent-bright); }
+    .check-item.fail .icon { color: var(--danger); }
+    .check-item.warn .icon { color: var(--warn); }
+
+    .keyword-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1);
+      margin-top: var(--space-2);
+    }
+
+    .keyword-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(196, 117, 107, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(196, 117, 107, 0.3);
+    }
+
+    .keyword-tag.matched {
+      background: rgba(124, 152, 133, 0.1);
+      color: var(--accent-bright);
+      border-color: rgba(124, 152, 133, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">resume --scan --ats</p>
+    <h1>Resume/CV ATS Score Checker</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      Paste your resume text and (optionally) a job description to check formatting
+      compatibility and keyword overlap — the two things Applicant Tracking Systems check
+      before a human ever sees your resume.
+    </p>
+
+    <div class="tool-layout">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Your resume text</h2>
+        </div>
+        <textarea id="resumeText" placeholder="Paste the full text of your resume here..."></textarea>
+
+        <div class="panel-header" style="margin-top: var(--space-2);">
+          <h2>Job description (optional, for keyword match)</h2>
+        </div>
+        <textarea id="jobDescText" placeholder="Paste the job posting text here to check keyword overlap..." style="min-height: 160px;"></textarea>
+
+        <div class="action-bar">
+          <button class="btn" id="analyzeBtn">Analyze Resume</button>
+          <button class="btn btn-ghost" id="clearBtn">Clear</button>
+        </div>
+      </div>
+
+      <div class="panel score-panel">
+        <div class="panel-header">
+          <h2>ATS Compatibility Score</h2>
+        </div>
+        <div class="score-circle" id="scoreCircle">
+          <span class="score-num" id="scoreNum">—</span>
+          <span class="score-label">/ 100</span>
+        </div>
+        <div class="checklist" id="checklist"></div>
+        <div id="keywordSection" style="display: none;">
+          <p style="font-size: 0.85rem; margin-top: var(--space-3); margin-bottom: var(--space-1);">Missing keywords from job description:</p>
+          <div class="keyword-tags" id="missingKeywords"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="info-section">
+      <h2>How ATS software actually screens resumes</h2>
+      <p>
+        Applicant Tracking Systems parse your resume into plain text before a recruiter
+        ever sees it, which means formatting choices that look great visually — tables,
+        text boxes, headers/footers, columns, or images — can scramble or completely drop
+        content during parsing. A resume that looks perfect when you open it in Word can
+        arrive at the recruiter's screen missing your entire work history if it was built
+        with the wrong layout choices.
+      </p>
+      <p>
+        Beyond formatting, most ATS platforms also rank or filter candidates based on
+        keyword overlap with the job description — skills, tools, and job titles
+        mentioned in the posting. This doesn't mean stuffing keywords unnaturally; it
+        means making sure the specific terms a recruiter searched for (like "React" or
+        "project management") actually appear in your resume if they genuinely describe
+        your experience, rather than being implied through different wording.
+      </p>
+
+      <div class="faq-item">
+        <h3>Does this tool read my actual resume file (PDF/Word)?</h3>
+        <p>No — paste the text content directly. This avoids parsing issues and keeps the check focused purely on your resume's wording and structure, which is what matters for ATS scoring.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is a high ATS score a guarantee of getting an interview?</h3>
+        <p>No — ATS compatibility just ensures your resume is readable and relevant to the role at the screening stage. The actual hiring decision still depends on your experience, the interview, and factors this tool can't measure.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/ats-checker.js"></script>
+</body>
+</html>

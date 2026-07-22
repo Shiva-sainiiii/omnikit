@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Free Bulk Image to WebP / AVIF Converter — 100% Client Side | OmniKit</title>
+  <meta name="description" content="Compress and convert images to WebP or AVIF directly in your browser. Bulk upload, no server upload, no login. Faster page speed for your website.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/tools/image-converter.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">img --webp --avif --bulk</p>
+    <h1>Free Bulk Image to WebP Converter - 100% Client Side</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      Drop in JPG, PNG, or any image files to convert them to WebP or AVIF in bulk. Nothing
+      is uploaded to a server — the conversion happens entirely in your browser using the
+      Canvas API.
+    </p>
+
+    <div class="panel" style="margin-top: var(--space-4);">
+      <div class="option-row">
+        <div class="option-group">
+          <label for="outputFormat">Output format</label>
+          <select id="outputFormat">
+            <option value="image/webp">WebP</option>
+            <option value="image/avif">AVIF (if supported by your browser)</option>
+          </select>
+        </div>
+        <div class="option-group">
+          <label for="qualitySlider">Quality: <span id="qualityValue">80</span>%</label>
+          <input type="range" id="qualitySlider" min="10" max="100" value="80">
+        </div>
+      </div>
+
+      <div class="drop-zone" id="dropZone">
+        <p>Drag &amp; drop images here, or click to browse</p>
+        <input type="file" id="fileInput" accept="image/*" multiple hidden>
+      </div>
+
+      <div class="action-bar" id="bulkActions" style="display: none;">
+        <button class="btn" id="downloadAllBtn">Download All (.zip not required — individual files)</button>
+        <button class="btn btn-ghost" id="clearAllBtn">Clear All</button>
+      </div>
+
+      <div class="file-grid" id="fileGrid"></div>
+    </div>
+
+    <section class="info-section">
+      <h2>Why should you convert images to WebP?</h2>
+      <p>
+        WebP is a modern image format developed by Google that typically produces files
+        25-35% smaller than equivalent JPEGs at the same visual quality, and even more
+        compared to PNG for images with transparency. Since image weight is usually the
+        single biggest contributor to page load time, converting your website's images to
+        WebP is one of the most effective website speed optimization changes you can make
+        without touching any other part of your site.
+      </p>
+      <p>
+        This matters beyond just user experience — page speed is a confirmed ranking
+        factor for search engines, and Google's own PageSpeed Insights and Lighthouse
+        tools specifically flag unoptimized images and recommend switching to next-gen
+        image formats like WebP or AVIF. AVIF compresses even further than WebP in many
+        cases, though browser support is still catching up, which is why offering both
+        formats gives you flexibility depending on your audience's browsers.
+      </p>
+
+      <div class="faq-item">
+        <h3>Is WebP better than JPG?</h3>
+        <p>For most use cases, yes — WebP produces smaller file sizes at comparable visual quality, and unlike JPG, it also supports transparency, so it can replace PNG in many situations too. The main caveat is very old browsers or software with no WebP support, though this is increasingly rare today.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does WebP reduce image quality?</h3>
+        <p>At high quality settings (80% and above), the visual difference from the original is generally imperceptible, while the file size reduction is still substantial. Lower quality settings save more space but introduce visible compression artifacts, similar to how JPEG quality settings work.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/image-converter.js"></script>
+</body>
+</html>

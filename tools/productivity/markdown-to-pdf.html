@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('omnikit-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Markdown to Beautiful PDF / HTML Converter | OmniKit</title>
+  <meta name="description" content="Convert Markdown notes and documentation into clean, styled PDF or HTML files instantly. Free, no login, runs entirely in your browser.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&family=Georgia&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/tools/markdown-to-pdf.css">
+
+  <!-- marked.js for Markdown parsing, jsPDF + html2canvas for PDF export -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand"><span class="prompt-char">&gt;</span> omnikit</a>
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/#dev">Dev &amp; AI</a>
+        <a href="/#social">Social</a>
+        <a href="/#business">Business</a>
+        <a href="/#productivity">Productivity</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Switch to light mode">☀</button>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-5);">
+
+    <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">md --export --pdf --html</p>
+    <h1>Markdown to Beautiful PDF/HTML Converter</h1>
+    <p style="max-width: 640px; margin-top: var(--space-2);">
+      Paste your Markdown notes or documentation and get a live-rendered, styled preview.
+      Download as a polished PDF or a standalone HTML file — no login, nothing uploaded.
+    </p>
+
+    <div class="panel" style="margin-top: var(--space-4);">
+      <div class="option-row">
+        <div class="option-group">
+          <label for="themeSelect">Preview theme</label>
+          <select id="themeSelect">
+            <option value="clean">Clean (sans-serif)</option>
+            <option value="editorial">Editorial (serif)</option>
+            <option value="technical">Technical (mono headings)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Markdown input</h2>
+        </div>
+        <textarea id="markdownInput" placeholder="# Your document title
+
+Write your **Markdown** here...">## Project Notes
+
+This is a sample document with **bold text**, *italics*, and a list:
+
+- First point
+- Second point
+- Third point
+
+> A blockquote for emphasis.
+
+```
+code block example
+```
+</textarea>
+        <div class="action-bar">
+          <button class="btn" id="downloadPdfBtn">Download PDF</button>
+          <button class="btn btn-ghost" id="downloadHtmlBtn">Download HTML</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Live preview</h2>
+        </div>
+        <div class="preview-wrap">
+          <div class="markdown-preview theme-clean" id="markdownPreview"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="info-section">
+      <h2>Why convert Markdown to PDF instead of just sharing the .md file?</h2>
+      <p>
+        Markdown is excellent for writing — it's fast, distraction-free, and version
+        control friendly — but raw <code>.md</code> files render as plain, unstyled text
+        for most recipients unless they're using a Markdown-aware editor. A converted PDF
+        or HTML file, on the other hand, presents your headings, lists, code blocks, and
+        emphasis exactly as intended, which matters when you're sending documentation,
+        proposals, or notes to someone who won't otherwise render Markdown correctly.
+      </p>
+      <p>
+        Keeping the conversion client-side also matters for anyone documenting sensitive
+        internal notes, draft content, or unpublished writing — there's no reason a
+        formatting tool needs to see or store the actual content of what you're
+        converting, so this tool processes everything locally and never transmits your
+        document anywhere.
+      </p>
+
+      <div class="faq-item">
+        <h3>Does this support code syntax highlighting?</h3>
+        <p>Code blocks are rendered in a monospace font with a distinct background for readability, though full language-specific syntax highlighting isn't included in this version.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I use this for long documents like full reports?</h3>
+        <p>Yes — the PDF export automatically paginates content across multiple pages as needed.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
+      <div class="footer-links">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../js/core/nav.js"></script>
+  <script src="../../js/core/theme.js"></script>
+  <script src="../../js/tools/markdown-to-pdf.js"></script>
+</body>
+</html>
