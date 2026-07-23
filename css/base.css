@@ -54,7 +54,13 @@
 }
 
 :root[data-theme="light"] .site-header {
-  background: rgba(243, 239, 230, 0.88);
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--border);
+}
+
+:root[data-theme="light"] .site-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
 }
 
 * {
