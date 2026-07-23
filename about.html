@@ -26,25 +26,21 @@
       display: flex;
       align-items: center;
       gap: var(--space-5);
-      padding: var(--space-6) 0 var(--space-4);
+      padding: var(--space-4) 0 var(--space-4);
       flex-wrap: wrap;
     }
 
-    /* "Sector" shape: like a square with one corner (top-right) sliced off
-       diagonally, but the diagonal edge itself is curved (a quarter-circle
-       arc) rather than a straight line — giving a shield/sector silhouette
-       instead of a plain square or circle. */
-    .about-avatar-wrap {
-      position: absolute;
-      top:0;
-      right:0;
-      width: 200px;
-      height: 200px;
-      flex-shrink: 0;
-      border-radius: 100px 0px 0px 100px;
+    /* Photo sits flush against the page's top-left edge, right after the
+       header — not inside .container, so no side padding applies.
+       Sharp top-right corner, sharp top-left (page corner), only the
+       bottom-left corner is curved into a quarter-circle sector arc. */
+    .about-photo-block {
+      width: 220px;
+      height: 220px;
       overflow: hidden;
-      border: 3px solid var(--accent);
-      
+      border-radius: 0 0 100px 0;
+      border-right: 3px solid var(--accent);
+      border-bottom: 3px solid var(--accent);
     }
 
     .about-avatar {
@@ -55,10 +51,10 @@
     }
 
     @media (max-width: 520px) {
-      .about-avatar-wrap {
-        width: 150px;
-        height: 150px;
-        border-radius: 18px 70px 18px 18px;
+      .about-photo-block {
+        width: 160px;
+        height: 160px;
+        border-radius: 0 0 70px 0;
       }
     }
 
@@ -299,12 +295,13 @@
     </div>
   </aside>
 
+  <div class="about-photo-block">
+    <img src="https://shivasainiportfolio.vercel.app/assets/profile-thumb.jpg" alt="Shiva Saini" class="about-avatar">
+  </div>
+
   <main class="container">
 
     <div class="about-hero">
-      <div class="about-avatar-wrap">
-        <img src="https://shivasainiportfolio.vercel.app/assets/profile-thumb.jpg" alt="Shiva Saini" class="about-avatar">
-      </div>
       <div>
         <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">whoami</p>
         <h1 style="font-size: 1.8rem;">Shiva Saini</h1>
@@ -401,4 +398,5 @@
   <script src="js/core/nav.js"></script>
   <script src="js/core/theme.js"></script>
 </body>
-</html>
+          </html>
+  
