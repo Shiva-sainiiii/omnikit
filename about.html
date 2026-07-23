@@ -25,18 +25,38 @@
     .about-hero {
       display: flex;
       align-items: center;
-      gap: var(--space-4);
+      gap: var(--space-5);
       padding: var(--space-6) 0 var(--space-4);
       flex-wrap: wrap;
     }
 
-    .about-avatar {
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--accent);
+    /* "Sector" shape: like a square with one corner (top-right) sliced off
+       diagonally, but the diagonal edge itself is curved (a quarter-circle
+       arc) rather than a straight line — giving a shield/sector silhouette
+       instead of a plain square or circle. */
+    .about-avatar-wrap {
+      width: 200px;
+      height: 200px;
       flex-shrink: 0;
+      border-radius: 24px 100px 24px 24px;
+      overflow: hidden;
+      border: 3px solid var(--accent);
+      position: relative;
+    }
+
+    .about-avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (max-width: 520px) {
+      .about-avatar-wrap {
+        width: 150px;
+        height: 150px;
+        border-radius: 18px 70px 18px 18px;
+      }
     }
 
     .about-badges {
@@ -260,7 +280,7 @@
         About Us
       </a>
       <div class="drawer-divider"></div>
-      <a href="https://github.com/Shiva-sainiiii/omnikit" target="_blank" rel="noopener" class="site-drawer-link">
+      <a href="https://github.com/" target="_blank" rel="noopener" class="site-drawer-link">
         <svg viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
         View Source on GitHub
       </a>
@@ -279,7 +299,9 @@
   <main class="container">
 
     <div class="about-hero">
-      <img src="https://shivasainiportfolio.vercel.app/assets/profile-thumb.jpg" alt="Shiva Saini" class="about-avatar">
+      <div class="about-avatar-wrap">
+        <img src="https://shivasainiportfolio.vercel.app/assets/profile-thumb.jpg" alt="Shiva Saini" class="about-avatar">
+      </div>
       <div>
         <p class="mono" style="color: var(--accent-bright); font-size: 0.85rem;">whoami</p>
         <h1 style="font-size: 1.8rem;">Shiva Saini</h1>
@@ -368,7 +390,7 @@
     <div class="container">
       <p>OmniKit by Shiva Saini · No trackers, no signup, no server uploads.</p>
       <div class="footer-links">
-        <a href="https://github.com/Shiva-sainiiii/omnikit" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
+        <a href="https://github.com/" target="_blank" rel="noopener" class="gh-link">↗ View Source on GitHub</a>
       </div>
     </div>
   </footer>
