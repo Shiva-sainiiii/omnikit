@@ -30,17 +30,18 @@
       flex-wrap: wrap;
     }
 
-    /* Photo sits flush against the page's top-left edge, right after the
+    /* Photo sits flush against the page's top-right edge, right after the
        header — not inside .container, so no side padding applies.
-       Sharp top-right corner, sharp top-left (page corner), only the
-       bottom-left corner is curved into a quarter-circle sector arc. */
+       Sharp top-left corner, sharp top-right (page corner), only the
+       bottom-right corner is curved into a quarter-circle sector arc. */
     .about-photo-block {
       width: 220px;
       height: 220px;
       overflow: hidden;
-      border-radius: 0 0 0px 100px;
-      border-right: 3px solid var(--accent);
+      border-radius: 0 0 0 100px;
+      border-left: 3px solid var(--accent);
       border-bottom: 3px solid var(--accent);
+      margin-left: auto;
     }
 
     .about-avatar {
@@ -54,7 +55,7 @@
       .about-photo-block {
         width: 160px;
         height: 160px;
-        border-radius: 0 0 0px 70px;
+        border-radius: 0 0 0 70px;
       }
     }
 
@@ -398,5 +399,5 @@
   <script src="js/core/nav.js"></script>
   <script src="js/core/theme.js"></script>
 </body>
-          </html>
+    </html>
   
