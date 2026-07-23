@@ -37,7 +37,7 @@
    accent for contrast, and a soft warm-gray border so cards read as
    distinct surfaces rather than blending into the page. */
 :root[data-theme="light"] {
-  --bg: #C4B9A0;
+  --bg: #E7DFC9;
   --surface: #FFFFFF;
   --surface-hover: #FAF6EC;
   --border: #2A2F3A;
